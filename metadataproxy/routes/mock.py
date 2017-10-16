@@ -145,13 +145,13 @@ def get_security_credentials_slash(api_version):
     methods=['GET']
 )
 def get_role_credentials(api_version, requested_role, junk=None):
-    try:
-        role_params = roles.get_role_params_from_ip(
-            request.remote_addr,
-            requested_role=requested_role
-        )
-    except roles.UnexpectedRoleError:
-        return '', 403
+    #try:
+    role_params = roles.get_role_params_from_ip(
+        request.remote_addr,
+        requested_role=requested_role
+    )
+    # except roles.UnexpectedRoleError:
+    #     return '', 403
 
     try:
         assumed_role = roles.get_assumed_role_credentials(

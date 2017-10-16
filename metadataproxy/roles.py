@@ -122,6 +122,7 @@ def find_container(ip):
         except docker.errors.NotFound:
             log.error('Container id {0} not found'.format(_id))
             continue
+
         # Try matching container to caller by IP address
         _ip = c['NetworkSettings']['IPAddress']
         if ip == _ip:
@@ -133,7 +134,7 @@ def find_container(ip):
         _networks = c['NetworkSettings']['Networks']
         if _networks:
             for _network in _networks:
-                if _networks[_network]['IPAddress'] == ip:
+                if _networks[_network]['IPAddress'] == ip or _networks[_network]['Gateway']:
                     msg = 'Container id {0} mapped to {1} by sub-network IP match'
                     log.debug(msg.format(_id, ip))
                     CONTAINER_MAPPING[ip] = _id
@@ -230,10 +231,10 @@ def get_role_params_from_ip(ip, requested_role=None):
         params['name'] = role_parts[0]
         if len(role_parts) > 1:
             params['account_id'] = role_parts[1]
-
+    
     if requested_role and requested_role != params['name']:
         raise UnexpectedRoleError
-
+    
     return params
 
 
