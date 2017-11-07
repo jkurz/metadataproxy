@@ -4,7 +4,6 @@ services:
     image: metadataproxy
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
-    - ${HOME}/.aws/credentials:/root/.aws/credentials
     ports:
     - 80:8000
     environment:
@@ -12,3 +11,6 @@ services:
       MOCK_API: "True"
       AWS_DEFAULT_REGION: "us-east-1"
       IAM_ROLE: "${IAM_ROLE}"
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_SESSION_TOKEN: ${AWS_SESSION_TOKEN}
